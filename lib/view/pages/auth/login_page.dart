@@ -3,7 +3,6 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/controllers/auth_controller.dart';
-import 'package:tech_event_registration/controllers/user_controller.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
 import 'package:tech_event_registration/view/pages/auth/sign_up_page.dart';
@@ -224,7 +223,11 @@ class LoginPage extends StatelessWidget {
             Buttons.Google,
 //            elevation: 20,
             text: "Sign in with Google",
-            onPressed: () {},
+            onPressed: () {
+              AuthController controller = Get.find();
+              controller.signInWithGoogle();
+
+            },
 //          mini: true,
 
           ),
@@ -236,16 +239,3 @@ class LoginPage extends StatelessWidget {
 
 
 }
-
-// (String? value) {
-// if (value == null) {
-// return 'Email is required';
-// }
-// if (value.isEmpty) {
-// return 'Email is required';
-// }
-// if (!GetUtils.isEmail(value)) {
-// return "Invalid Format";
-// }
-// return null;
-// }

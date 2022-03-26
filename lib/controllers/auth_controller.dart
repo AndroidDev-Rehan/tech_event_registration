@@ -1,9 +1,15 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tech_event_registration/controllers/user_controller.dart';
+import 'package:tech_event_registration/view/pages/home/home.dart';
+import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
 import '../models/user.dart';
 import '../services/user_db.dart';
 import '../utils/authWrapper.dart';
@@ -34,7 +40,7 @@ class AuthController extends GetxController{
 
 
   /// Obscure Text
-  var _signUpObscureText = true.obs ;
+  final _signUpObscureText = true.obs ;
   bool get getSignUpObscureText => _signUpObscureText.value ;
   void setSignUpObscureText() => _signUpObscureText.value = !_signUpObscureText.value ;
 
@@ -43,11 +49,11 @@ class AuthController extends GetxController{
   TextEditingController userNameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
 
-  var _userProfileURL = "".obs ;
+  final _userProfileURL = "".obs ;
   String get userProfileURL => _userProfileURL.value ;
 
 
-  UserController _userController = Get.find<UserController>() ;
+  final UserController _userController = Get.find<UserController>() ;
 
 
   @override
@@ -87,7 +93,7 @@ class AuthController extends GetxController{
     _loading.value = true ;
     try{
       await _auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-    ///  Get.to(()=>AuthWrapper(),transition: Transition.fadeIn);
+      Get.off(()=>const AuthWrapper(),transition: Transition.fadeIn);
       clearControllers();
       _loading.value = false ;
     }
@@ -153,7 +159,10 @@ class AuthController extends GetxController{
 
   void signOut() async {
     try{
+      _loading.value = true;
       await _auth.signOut() ;
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
       Get.find<UserController>().clear();
       Get.back();
     }
@@ -161,8 +170,8 @@ class AuthController extends GetxController{
       print(e);
       Get.snackbar("Error", e.toString(),snackPosition: SnackPosition.BOTTOM);
       print(e);
-
     }
+    _loading.value = false;
   }
 
 
@@ -170,15 +179,116 @@ class AuthController extends GetxController{
   void clearControllers(){
     emailController.clear();
     passwordController.clear();
+    phoneNumberController.clear();
+    userNameController.clear();
     confirmPasswordController.clear();
+    selectedRole!.value = "Select Role";
+    degree = null;
+    age = null;
+  }
+
+  static Future<bool> checkUserExist(String docID) async {
+    bool exists = false;
+    try {
+      await FirebaseFirestore.instance.doc("Users/$docID").get().then((doc) {
+        if (!doc.exists)
+          exists = false;
+        else
+          exists = true;
+      });
+      return exists;
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+      return false;
+    }
+  }
+
+  bool firstTimeLogin = false;
+
+   Future<User?> signInWithGoogle() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    _loading.value = true;
+
+      final GoogleSignInAccount? googleSignInAccount =
+      await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        try {
+          final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+          user = userCredential.user;
+          _loading.value = false;
+          firstTimeLogin = !(await checkUserExist(user!.uid));
+          Get.off(const AuthWrapper());
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            Get.snackbar("Error", 'The account already exists with a different credential',);
+          } else if (e.code == 'invalid-credential') {
+            Get.snackbar("Error", 'Error occurred while accessing credentials. Try again.',);
+          }
+        } catch (e) {
+          Get.snackbar("Error", 'Error occurred using Google Sign In. Try again.',);
+        }
+      }
+
+       // notFirstTimeLogin =false;
+       // print(notFirstTimeLogin);
+
+
+      return user;
+  }
+
+
+  postUserData() async{
+     if(FirebaseAuth.instance.currentUser == null)
+       {
+         print("user null");
+       }
+    try{
+      _loading.value = true ;
+      final user = UserModel(
+          email: FirebaseAuth.instance.currentUser!.email,
+          id: FirebaseAuth.instance.currentUser!.uid,
+          name: FirebaseAuth.instance.currentUser!.displayName,
+          createdAt: DateTime.now(),
+          modifiedAt: DateTime.now(),
+          category: selectedRole!.value,
+          phoneNumber: phoneNumberController.text,
+          degree: degree,
+          age: age
+      );
+      await UserDatabase().createUser(user);
+      clearControllers();
+      _loading.value = false ;
+      Get.offAll(()=> HomePage());
+    }
+    catch(e){
+      _loading.value = false ;
+      Get.snackbar("Error", e.toString(),snackPosition: SnackPosition.BOTTOM);
+      print(e);
+    }
   }
 
   @override
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
+    userNameController.dispose();
     confirmPasswordController.dispose();
     super.onClose();
   }
+
 
 }
