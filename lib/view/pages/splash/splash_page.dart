@@ -35,23 +35,28 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: Get.width,height: Get.height,
-        child:  Center(
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (_, child) {
-                return Transform.rotate(
-                  angle: _controller.value * 2 * 22/7,
-                  child: child,
-                );
-              },
-              child: Image.asset("assets/images/logo.png"),
-            ),)
+    return OrientationBuilder(
 
-        ),
+      builder: (context, snapshot) {
+        return Scaffold(
+          body: Container(
+            width: Get.width,height: Get.height,
+            child:  Center(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (_, child) {
+                    return Transform.rotate(
+                      angle: _controller.value * 2 * 22/7,
+                      child: child,
+                    );
+                  },
+                  child: Image.asset("assets/images/logo.png"),
+                ),)
 
+            ),
+
+        );
+      }
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/view/pages/home/home.dart';
 import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
 import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
-      home: EventDetailScreen(),
+      home: HomePage(),
       // home:const AuthWrapper(),
     );
   }

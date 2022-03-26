@@ -9,33 +9,37 @@ class SponsorHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Column(
+      child: OrientationBuilder(
+        builder: (context, snapshot) {
+          return Scaffold(
+            body: Stack(
               children: [
-                purpleCurveContainer(),
+                Column(
+                  children: [
+                    purpleCurveContainer(),
+                  ],
+                ),
+                Positioned(
+                    right: 0, left: 0, top: 20,
+                    child: appBarRow()
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 80,
+                    child: eventsList(),
+
+                )
+
+
+                // Positioned(
+                //     top: 80,
+                //     left: 0,
+                //     child: eventsList())
               ],
             ),
-            Positioned(
-                right: 0, left: 0, top: 20,
-                child: appBarRow()
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 80,
-                child: eventsList(),
-
-            )
-
-
-            // Positioned(
-            //     top: 80,
-            //     left: 0,
-            //     child: eventsList())
-          ],
-        ),
+          );
+        }
       ),
     );
   }

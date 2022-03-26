@@ -4,7 +4,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
-import 'package:tech_event_registration/view/pages/auth/sign_up_page.dart';
+import 'package:tech_event_registration/view/pages/auth/forget_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,26 +12,30 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: Get.width,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children:  [
-                  const SizedBox(height: 20,),
-                  Image.asset("assets/images/logo.png", scale: 3,),
-                  const SizedBox(height: 20,),
-                  signInContainer(),
-                  const SizedBox(height: 20,),
-                  belowContainer(),
+      child: OrientationBuilder(
+        builder: (context, snapshot) {
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: SizedBox(
+                width: Get.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children:  [
+                      const SizedBox(height: 20,),
+                      Image.asset("assets/images/logo.png", scale: 3,),
+                      const SizedBox(height: 20,),
+                      signInContainer(),
+                      const SizedBox(height: 20,),
+                      belowContainer(),
 
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }
       ),
     );
   }
@@ -119,8 +123,8 @@ class LoginPage extends StatelessWidget {
   forgotPassword(){
     return Row(
       mainAxisSize: MainAxisSize.max,
-      children: const [
-        Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),),
+      children:  [
+        GestureDetector(onTap:(){Get.to(()=>ForgetPage());},child: Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),)),
       ],
     );
   }
@@ -136,11 +140,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Don't have an account? ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
-               InkWell(
-                  onTap: (){
-                    Get.to(()=>SignUpScreen());
-                  },
-                  child: Text("Create new account", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
+              const InkWell(child: Text("Create new account", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
             ],
           ),
         ),

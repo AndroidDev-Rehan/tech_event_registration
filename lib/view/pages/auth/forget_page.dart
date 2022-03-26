@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tech_event_registration/view/pages/auth/login_page.dart';
-import 'package:tech_event_registration/view/widgets/dropdown_button.dart';
-import '../../../utils/const/globals.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+import 'package:get/get.dart';
+import 'package:tech_event_registration/utils/const/colors.dart';
+import 'package:tech_event_registration/utils/const/globals.dart';
+
+class ForgetPage extends StatelessWidget {
+  const ForgetPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +31,12 @@ class SignUpScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("I already have an account.  ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
-                            InkWell(
-                                onTap: (){
-                                  Get.to(()=>const LoginPage());
-                                },
-                                child: const Text("Sign In", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
+                            Text("Remember? ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+                            const InkWell(child: Text("Login", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
                           ],
                         ),
-                      )
-//                  belowContainer(),
+                      ),
+
                     ],
                   ),
                 ),
@@ -70,26 +66,13 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Row(
                 children: const [
-                  Text("Create New", style: textStyle_22_600,),
-                ],
-              ),
-              const SizedBox(height: 7,),
-              Row(
-                children: const [
-                  Text("Account", style: textStyle_22_600),
+                  Text("Reset Password", style: textStyle_22_600,),
                 ],
               ),
               const SizedBox(height: 20,),
               textFieldsColumn(),
-//              const SizedBox(height: 10,),
-              Container(
-                 color: Colors.grey.withOpacity(0.2),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: MyDropDownButton(dropdownValue: "Select Role", items: ["Select Role","Manager", "Participant","Sponsor"])),
-              const SizedBox(height: 30,),
-              signUpButton("Create new Account")
-//              forgotPassword(),
-//              loginButton("Login"),
+              const SizedBox(height: 20,),
+              loginButton("Reset"),
             ],
           ),
         ),
@@ -101,10 +84,7 @@ class SignUpScreen extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        customTextField("Enter Username", TextEditingController(), Icons.person),
-        customTextField("Enter Email", TextEditingController(), Icons.email_outlined),
-        customTextField("Enter Phone Number", TextEditingController(), Icons.phone),
-        customTextField("Enter Password", TextEditingController(), Icons.lock),
+        customTextField("Enter Email", TextEditingController(), Icons.person),
       ],
     );
   }
@@ -124,7 +104,7 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  signUpButton(String text){
+  loginButton(String text){
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -139,6 +119,16 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
+  forgotPassword(){
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: const [
+        Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),),
+      ],
+    );
+  }
+
+
+
+
 }
-
-
