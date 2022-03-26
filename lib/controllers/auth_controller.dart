@@ -34,8 +34,8 @@ class AuthController extends GetxController{
 
 
   /// Profile Setup
-  TextEditingController userNameController = new TextEditingController();
-  TextEditingController cityController = new TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
 
   var _userProfileURL = "".obs ;
   String get userProfileURL => _userProfileURL.value ;

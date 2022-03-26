@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GetMaterialApp(
       title: "Care-Corner",
-      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+        primaryColor: Colors.purple
+      ),
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
       home:const AuthWrapper(),
