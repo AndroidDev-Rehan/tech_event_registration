@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
       // home: EventDetailScreen(),
-      home:const SplashScreen(),
+      home:const AuthWrapper(),
     );
   }
 }

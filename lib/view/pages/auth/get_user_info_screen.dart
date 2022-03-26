@@ -7,63 +7,62 @@ import 'package:tech_event_registration/view/pages/auth/login_page.dart';
 import 'package:tech_event_registration/view/widgets/dropdown_button.dart';
 import '../../../utils/const/globals.dart';
 
-class SignUpScreen extends StatelessWidget {
-
-  SignUpScreen({Key? key}) : super(key: key);
+class GetUserInfoScreen extends StatelessWidget {
+  GetUserInfoScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
 
 
   @override
   Widget build(BuildContext context) {
-   log('/////////////////////////////////');
+    log('/////////////////////////////////');
 
     return SafeArea(
       child: OrientationBuilder(
-        builder: (context, snapshot) {
-          return Scaffold(
-            body: GetX(
-              builder: (AuthController controller) {
-                return ModalProgressHUD(
-                  inAsyncCall: controller.loading,
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      width: Get.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children:  [
-                            const SizedBox(height: 20,),
-                            Image.asset("assets/images/logo.png", scale: 3,),
-                            const SizedBox(height: 20,),
-                            signInContainer(),
-                            const SizedBox(height: 20,),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("I already have an account.  ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
-                                  InkWell(
-                                      onTap: (){
-                                        Get.to(()=>LoginPage());
-                                      },
-                                      child: const Text("Sign In", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
-                                ],
-                              ),
-                            )
+          builder: (context, snapshot) {
+            return Scaffold(
+              body: GetX(
+                  builder: (AuthController controller) {
+                    return ModalProgressHUD(
+                      inAsyncCall: controller.loading,
+                      child: SingleChildScrollView(
+                        child: SizedBox(
+                          width: Get.width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children:  [
+                                const SizedBox(height: 20,),
+                                Image.asset("assets/images/logo.png", scale: 3,),
+                                const SizedBox(height: 20,),
+                                signInContainer(),
+                                const SizedBox(height: 20,),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("I already have an account.  ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+                                      InkWell(
+                                          onTap: (){
+                                            Get.to(()=>LoginPage());
+                                          },
+                                          child: const Text("Sign In", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
+                                    ],
+                                  ),
+                                )
 //                  belowContainer(),
-                          ],
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }
-            ),
-          );
-        }
+                    );
+                  }
+              ),
+            );
+          }
       ),
     );
   }
@@ -89,46 +88,45 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Row(
                 children: const [
-                  Text("Create New", style: textStyle_22_600,),
+                  Text("Enter the following", style: textStyle_22_600,),
                 ],
               ),
               const SizedBox(height: 7,),
               Row(
                 children: const [
-                  Text("Account", style: textStyle_22_600),
+                  Text("Information", style: textStyle_22_600),
                 ],
               ),
               const SizedBox(height: 20,),
               textFieldsColumn(),
 //              const SizedBox(height: 10,),
               Container(
-                 color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withOpacity(0.2),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: MyDropDownButton(dropdownValue: "Select Role", items: const ["Select Role","Manager", "Participant","Sponsor"],)),
               const SizedBox(height: 10,),
               Obx(
-                  ()=> Column(
+                    ()=> Column(
                   children: [
                     authController.selectedRole!.value == "Participant" ?
                     Container(
                         color: Colors.grey.withOpacity(0.2),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: MyDropDownButton(dropdownValue: "Select Age", items: const ["Select Age","Under 18", "Above 18","Above 25", "Above 35"],))
-                    : SizedBox(height: 0,),
+                        : SizedBox(height: 0,),
                     const SizedBox(height: 10,),
                     authController.selectedRole!.value == "Participant" ?
                     Container(
                         color: Colors.grey.withOpacity(0.2),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: MyDropDownButton(dropdownValue: "Select Degree", items: const ["Select Degree","Matric", "Intermediate","Undergraduate", "Graduate"],))
-                    : const SizedBox(height: 0,),
+                        : const SizedBox(height: 0,),
                   ],
                 ),
               ),
               const SizedBox(height: 30,),
-              signUpButton("Create new Account")
 //              forgotPassword(),
-//              loginButton("Login"),
+            signUpButton("Create Account")
             ],
           ),
         ),
@@ -143,27 +141,13 @@ class SignUpScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          customTextField2("Enter Email", controller.emailController , Icons.email_outlined,
-                  (String? value){
-                if (value == null) {
-                  return 'Email is required';
-                }
-                if (value.isEmpty) {
-                  return 'Email is required';
-                }
-                if (!GetUtils.isEmail(value)) {
-                  return "Invalid Format";
-                }
-                return null;
-              }
-          ),
           customTextField2("Enter UserName", controller.userNameController, Icons.person,
-                  (String? value){
-                if (value == null) {
-                  return 'User Name is required';
-                }
-                return null;
-              },
+                (String? value){
+              if (value == null) {
+                return 'User Name is required';
+              }
+              return null;
+            },
           ),
           customTextField2("Enter Phone Number", controller.phoneNumberController, Icons.phone,
                   (String? value){
@@ -175,18 +159,6 @@ class SignUpScreen extends StatelessWidget {
                 }
                 return null;
               },keyboardType: TextInputType.number
-          ),
-          customTextField2("Enter Password", controller.passwordController, Icons.lock,
-                  (String? value) {
-                if (value==null) {
-                  return 'password is required';
-                }
-                if(value.isEmpty){
-                  return 'password is required';
-                }
-                return null;
-              }
-
           ),
 
         ],
@@ -221,10 +193,10 @@ class SignUpScreen extends StatelessWidget {
       return false;
     }
     else if((categorySelectedValue=="Participant")&&(controller.age == null || controller.age == "Select Age"))
-      {
-        Get.snackbar("Error", "Please select age");
-        return false;
-      }
+    {
+      Get.snackbar("Error", "Please select age");
+      return false;
+    }
     else if((categorySelectedValue=="Participant")&&(controller.degree == null || controller.age == "Select Degree"))
     {
       Get.snackbar("Error", "Please select degree");
@@ -243,8 +215,8 @@ class SignUpScreen extends StatelessWidget {
           onPressed: (){
 
             if(_signUpFormKey.currentState!.validate() && selected()) {
-              controller.signUp();
-           }
+              controller.postUserData();
+            }
           },
           child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
           style: ElevatedButton.styleFrom(
@@ -254,6 +226,6 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
+
+
 }
-
-
