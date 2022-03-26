@@ -51,6 +51,18 @@ class UserDatabase{
       return [] ;
     }
   }
+  static void setevents(Events event) async {
+    try{
+
+       FirebaseFirestore.instance.collection("Events").add(event.toJson());
+
+    }
+    catch(e){
+      print(e);
+      Get.snackbar("error", e.toString(),snackPosition: SnackPosition.BOTTOM ) ;
+
+    }
+  }
   Future<void> updateUserProfilePhoto(String id,String photoURL)async {
     try{
       await userRef.doc(id).update({

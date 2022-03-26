@@ -13,7 +13,7 @@ class Events extends StatelessWidget {
       child: FutureBuilder(
           future: UserDatabase.getevents(),
           builder: (context,AsyncSnapshot<List> kFeatureData) {
-
+print('///////////////////');
             List<Widget> l = [];
             if (kFeatureData.hasData) {
               print(kFeatureData.data!.length);

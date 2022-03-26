@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/controllers/event.dart';
 import 'package:tech_event_registration/models/events.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
@@ -37,7 +38,9 @@ print('next');
 
    EventDetailController _controller=Get.put(EventDetailController());
   return GestureDetector(
-    onTap: (){_controller.panelController.open();},
+    onTap: (){_controller.panelController.open();
+      EventController _eventcontroller=Get.put(EventController());
+      _eventcontroller.selectedevent=data;},
     child: Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(vertical: 15,horizontal: 0),
@@ -52,8 +55,8 @@ print('next');
                 topLeft: const Radius.circular(5)),
             child: Image.network(
               '' + data.Image,
-              height: 100.0,
-              width:150,
+              height: Get.height*0.15,
+              width:Get.width*0.42,
               fit: BoxFit.cover,
             ),
           ),
@@ -68,7 +71,7 @@ print('next');
                     bottomLeft: Radius.circular(3),
                     bottomRight: Radius.circular(3))),
             alignment: Alignment.centerLeft,
-            width: 150,
+            width:Get.width*0.42,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +87,19 @@ print('next');
                         fontSize: 13),
                   ),
                 ),
-                SizedBox(height: 5,)
+                SizedBox(height: 5,),
+                Padding(
+                  padding: EdgeInsets.only( left: 20),
+                  child: Text(
+                    'At: ' + data.venue,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Semibold',
+                        fontSize: 13),
+                  ),
+                ),
+                SizedBox(height: 5,),
               ],
             ),
           ),
