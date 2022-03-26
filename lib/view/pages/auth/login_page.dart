@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
 
 class LoginPage extends StatelessWidget {
@@ -13,14 +16,19 @@ class LoginPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: SizedBox(
             width: Get.width,
-            child: Column(
-              children:  [
-                SizedBox(height: 20,),
-                Icon(Icons.login, color: Colors.blue,),
-                SizedBox(height: 20,),
-                signInContainer(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children:  [
+                  SizedBox(height: 20,),
+                  Image.asset("assets/images/logo.png", scale: 3,),
+                  SizedBox(height: 20,),
+                  signInContainer(),
+                  SizedBox(height: 20,),
+                  belowContainer(),
 
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -29,36 +37,39 @@ class LoginPage extends StatelessWidget {
   }
 
   signInContainer(){
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Material(
-        elevation: 10,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: const [
-                    Text("Sign in", style: textStyle_20_600,),
-                  ],
-                ),
-                SizedBox(height: 4,),
-                Row(
-                  children: [
-                    Text("to continue", style: textStyle_20_600),
-                  ],
-                ),
-                SizedBox(height: 4,),
-                textFieldsColumn(),
-                loginButton("Login"),
-              ],
-            ),
+    return Material(
+      elevation: 10,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
+        decoration:  BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: const [
+                  Text("Sign in", style: textStyle_22_600,),
+                ],
+              ),
+              const SizedBox(height: 7,),
+              Row(
+                children: const [
+                  Text("to continue", style: textStyle_22_600),
+                ],
+              ),
+              SizedBox(height: 20,),
+              textFieldsColumn(),
+              SizedBox(height: 30,),
+              forgotPassword(),
+              SizedBox(height: 20,),
+              loginButton("Login"),
+            ],
           ),
         ),
       ),
@@ -69,9 +80,8 @@ class LoginPage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        customTextField("login", TextEditingController(), Icons.person),
-        customTextField("password", TextEditingController(), Icons.lock),
-
+        customTextField("Enter Username", TextEditingController(), Icons.person),
+        customTextField("Enter Password", TextEditingController(), Icons.lock),
       ],
     );
   }
@@ -84,6 +94,7 @@ class LoginPage extends StatelessWidget {
           hintText: hint,
           filled: true,
           border: InputBorder.none,
+//          prefix: Icon(prefixIcon),
           prefixIcon: Icon(prefixIcon),
         ),
       ),
@@ -91,11 +102,82 @@ class LoginPage extends StatelessWidget {
   }
 
   loginButton(String text){
-    return ElevatedButton(
-        onPressed: (){},
-        child: Text(text)
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+          onPressed: (){
+
+          },
+          child: Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+        style: ElevatedButton.styleFrom(
+          fixedSize: Size(double.infinity, 50),
+        )
+      ),
     );
   }
+
+  forgotPassword(){
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: const [
+        Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),),
+      ],
+    );
+  }
+
+  belowContainer(){
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Don't have an account? ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+              InkWell(child: Text("Create new account", style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Colors.grey.withOpacity(0.2)
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text("Or"),
+            ),
+            Expanded(
+              child: Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Colors.grey.withOpacity(0.2)
+              ),
+            )                ],
+        ),
+        const SizedBox(height: 20,),
+        ClipRRect(
+//          borderRadius: BorderRadius.circular(20),
+          child: SignInButton(
+            Buttons.Google,
+//            elevation: 20,
+            text: "Sign in with Google",
+            onPressed: () {},
+//          mini: true,
+
+          ),
+        )
+      ],
+    );
+  }
+
 
 
 }
