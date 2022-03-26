@@ -38,9 +38,10 @@ class AuthWrapper extends StatelessWidget {
          // controller.getCurrentUser(user.uid);
           ///   return RootPage();
           return Scaffold(
-            body: Center(child: InkWell(
-                child: const Text('LOG OUT'),
-              onTap: () {
+            body: Center(
+                child: InkWell(
+                    child: const Text('LOG OUT'),
+                    onTap: () {
                   controller.signOut();
               }
             )),
