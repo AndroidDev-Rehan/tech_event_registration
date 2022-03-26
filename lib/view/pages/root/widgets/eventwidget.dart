@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/models/events.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
 import 'package:tech_event_registration/view/pages/root/widgets/eventdetailcontroller.dart';
@@ -7,7 +8,7 @@ import 'package:tech_event_registration/view/pages/root/widgets/eventdetailcontr
 class EventWidget extends StatelessWidget {
   EventWidget({Key? key, required this.kFeatureData, required this.index})
       : super(key: key);
-  final kFeatureData;
+  List kFeatureData;
   final int index;
 
 
@@ -32,7 +33,7 @@ print('next');
   }
 
 }
- buildEvent(Map data){
+ buildEvent(Events data){
 
    EventDetailController _controller=Get.put(EventDetailController());
   return GestureDetector(
@@ -50,7 +51,7 @@ print('next');
                 topRight: const Radius.circular(5),
                 topLeft: const Radius.circular(5)),
             child: Image.network(
-              '' + data['image'],
+              '' + data.Image,
               height: 100.0,
               width:150,
               fit: BoxFit.cover,
@@ -75,7 +76,7 @@ print('next');
                 Padding(
                   padding: EdgeInsets.only(top: 10, left: 20),
                   child: Text(
-                    '' + data['price'],
+                    '' + data.title,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
