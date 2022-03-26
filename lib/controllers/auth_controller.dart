@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tech_event_registration/controllers/user_controller.dart';
+import 'package:tech_event_registration/view/pages/auth/login_page.dart';
 import 'package:tech_event_registration/view/pages/home/home.dart';
 import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
 import '../models/user.dart';
@@ -31,9 +32,11 @@ class AuthController extends GetxController{
   ///Forgot Password
   TextEditingController forgotPasswordController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance ;
-  final Rxn<User> _firebaseUser = Rxn<User>() ;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value ;
+
+  UserModel? userModel;
 
   final _loading = false.obs ;
   bool get loading => _loading.value ;
@@ -66,7 +69,7 @@ class AuthController extends GetxController{
     try{
       _loading.value = true ;
       UserCredential userCredential =  await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-      final user = UserModel(
+      userModel = UserModel(
         email: emailController.text,
           id: userCredential.user!.uid,
           name: userNameController.text,
@@ -77,7 +80,7 @@ class AuthController extends GetxController{
         degree: degree,
         age: age
       );
-      await UserDatabase().createUser(user);
+      await UserDatabase().createUser(userModel!);
       Get.off(()=>AuthWrapper());
       clearControllers();
       _loading.value = false ;
@@ -136,25 +139,39 @@ class AuthController extends GetxController{
     }
   }
 
-  void setUpUser() async{
-    _loading.value = true ;
-    String id = _firebaseUser.value!.uid ;
-    var user = UserModel(name: nameController.text);
-    try {
-      await FirebaseFirestore.instance.collection("Users").doc(id).update({
-        "name" : user.name,
-      });
-      _userController.updateUserController(user);
-   ///   Get.offAll(()=>AuthWrapper());
-      _loading.value =false;
+  // void setUpUser() async{
+  //   _loading.value = true ;
+  //   String id = _firebaseUser.value!.uid ;
+  //   var user = UserModel(name: nameController.text);
+  //   try {
+  //     await FirebaseFirestore.instance.collection("Users").doc(id).update({
+  //       "name" : user.name,
+  //     });
+  //     _userController.updateUserController(user);
+  //  ///   Get.offAll(()=>AuthWrapper());
+  //     _loading.value =false;
+  //
+  //   }catch(e){
+  //     print(e);
+  //     Get.snackbar("Error", e.toString(),snackPosition: SnackPosition.BOTTOM);
+  //     _loading.value = false ;
+  //
+  //   }
+  // }
 
-    }catch(e){
+  Future<UserModel>  getUser (String id) async {
+    try{
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection("Users").doc(id).get();
+      userModel = UserModel.fromFirestore(doc);
+      return userModel!;
+    }
+    catch(e){
       print(e);
-      Get.snackbar("Error", e.toString(),snackPosition: SnackPosition.BOTTOM);
-      _loading.value = false ;
-
+      Get.snackbar("error", e.toString(),snackPosition: SnackPosition.BOTTOM ) ;
+      rethrow ;
     }
   }
+
 
 
   void signOut() async {
@@ -164,7 +181,7 @@ class AuthController extends GetxController{
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
       Get.find<UserController>().clear();
-      Get.back();
+      Get.offAll(LoginPage());
     }
     catch(e){
       print(e);
@@ -258,7 +275,7 @@ class AuthController extends GetxController{
        }
     try{
       _loading.value = true ;
-      final user = UserModel(
+      userModel = UserModel(
           email: FirebaseAuth.instance.currentUser!.email,
           id: FirebaseAuth.instance.currentUser!.uid,
           name: FirebaseAuth.instance.currentUser!.displayName,
@@ -269,7 +286,7 @@ class AuthController extends GetxController{
           degree: degree,
           age: age
       );
-      await UserDatabase().createUser(user);
+      await UserDatabase().createUser(userModel!);
       clearControllers();
       _loading.value = false ;
       Get.offAll(()=> HomePage());

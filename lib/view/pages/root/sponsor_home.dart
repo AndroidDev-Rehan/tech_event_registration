@@ -1,10 +1,35 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
+import 'package:tech_event_registration/view/pages/root/widgets/drwaer.dart';
+import '../../../controllers/auth_controller.dart';
 import '../../../utils/const/globals.dart';
 
 class SponsorHomeScreen extends StatelessWidget {
-  const SponsorHomeScreen({Key? key}) : super(key: key);
+  SponsorHomeScreen({Key? key}) : super(key: key);
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  getUser()async{
+
+    AuthController controller = Get.find();
+    if(controller.userModel == null) {
+      await controller.getUser(FirebaseAuth.instance.currentUser!.uid);
+    }
+
+    if(controller.userModel == null) {
+      log("still null");
+    }
+    else {
+      log("not null");
+      log(controller.userModel!.name!);
+    }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -12,31 +37,46 @@ class SponsorHomeScreen extends StatelessWidget {
       child: OrientationBuilder(
         builder: (context, snapshot) {
           return Scaffold(
-            body: Stack(
-              children: [
-                Column(
+            key: scaffoldKey,
+            drawer: MyDrawer(),
+            body: FutureBuilder(
+              future: getUser(),
+              builder: (context,snapshot) {
+                if(snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+
+                    ),
+                  );
+                } else {
+                  return Stack(
                   children: [
-                    purpleCurveContainer(),
+                    Column(
+                      children: [
+                        purpleCurveContainer(),
+                      ],
+                    ),
+                    Positioned(
+                        right: 0, left: 0, top: 20,
+                        child: appBarRow()
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 80,
+                        child: eventsList(),
+
+                    )
+
+
+                    // Positioned(
+                    //     top: 80,
+                    //     left: 0,
+                    //     child: eventsList())
                   ],
-                ),
-                Positioned(
-                    right: 0, left: 0, top: 20,
-                    child: appBarRow()
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 80,
-                    child: eventsList(),
-
-                )
-
-
-                // Positioned(
-                //     top: 80,
-                //     left: 0,
-                //     child: eventsList())
-              ],
+                );
+                }
+              }
             ),
           );
         }
@@ -87,7 +127,7 @@ class SponsorHomeScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Image.asset("assets/images/app_dev.jpeg"),
+                child: Image.asset("assets/images/app_dev.jpeg",height: 100,width: 100,fit: BoxFit.cover,),
               )
             ],
           ),
@@ -101,33 +141,33 @@ class SponsorHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children:  [
+          InkWell(
+              onTap: (){
+                scaffoldKey.currentState!.openDrawer();
+              },
+              child: Icon(Icons.menu, color: Colors.white,)),
+          Spacer(),
           Text(
             "Events for SPONSORS",
             style: TextStyle(color: Colors.white, fontSize: 20),
-          )
+          ),
+          Spacer()
         ],
       ),
     );
   }
 
   eventsList() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          eventDetailContainerForSponsor(),
-          eventDetailContainerForSponsor(),
-          eventDetailContainerForSponsor(),
-          eventDetailContainerForSponsor(),
-
-        ],
-      ),
+    return Container(height:Get.height-120,child: ListView.builder( shrinkWrap:true,itemBuilder:(context,index){return eventDetailContainerForSponsor();},itemCount: 5,));
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        eventDetailContainerForSponsor(),
+        eventDetailContainerForSponsor(),
+        eventDetailContainerForSponsor(),
+        eventDetailContainerForSponsor(),
+      ],
     );
-
-    // return ListView.builder(
-    //     itemCount: 1,
-    //     itemBuilder: eventDetailContainerForSponsor()
-    //
-    // );
   }
 }

@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
       // home: EventDetailScreen(),
-      home:const AuthWrapper(),
+      home: AuthWrapper(),
     );
   }
 }
