@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/view/pages/addevent/addeventpage.dart';
 import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
 import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
 import 'package:tech_event_registration/view/pages/splash/splash_page.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
       // home: EventDetailScreen(),
-      home:const AuthWrapper(),
+      home:AddEventPage(),
     );
   }
 }

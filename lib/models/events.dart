@@ -5,6 +5,10 @@ class Events{
   String endtime;
   String venue;
   String description;
+  String stall;
+  String price;
+  String agecriteria;
+  String educriteria;
 
   Events(
       {required this.title,
@@ -12,7 +16,8 @@ class Events{
       required this.starttime,
       required this.endtime,
       required this.venue,
-      required this.description});
+      required this.description,
+      required this.stall,required this.price,required this.agecriteria,required this.educriteria});
 
   factory Events.fromJson(Map<String, dynamic> json) {
     return Events(
@@ -22,6 +27,9 @@ class Events{
       endtime: json["end time"],
       venue: json["Venue"],
       description: json["Description"],
+      price: json["Price"],
+      stall: json["Stall"],
+      agecriteria: json['age'],educriteria: json['edu']
     );
   }
 
@@ -31,8 +39,12 @@ class Events{
       "Image": this.Image,
       "starttime": this.starttime,
       "endtime": this.endtime,
-      "venue": this.venue,
-      "description": this.description,
+      "Venue": this.venue,
+      "Description": this.description,
+      'Stall':this.stall,
+      'Price':this.price,
+      'edu':this.educriteria,
+      'age':this.agecriteria
     };
   }
 //

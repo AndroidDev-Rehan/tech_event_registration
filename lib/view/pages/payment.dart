@@ -8,11 +8,11 @@ import 'package:http/http.dart' as http;
 class Payment {
 
   Map<String, dynamic>? paymentIntentData;
-  Future<void> makePayment() async {
+  Future<void> makePayment(String amount) async {
     final url = Uri.parse(
         "https://us-central1-befriend-me-e07b6.cloudfunctions.net/firstApi/stripePayement");
     final response =
-    await http.post(url, body: {'amount': '10000','stripe_secret':'sk_test_51KhdLXDJF8BD6oeLMv7NDIwvGn0Bylrf3sX1eLTMjAZlzcmaLLmHepwLBZ8jbNBsTLQ9JcW8Tcqkxhi1yJjJDL2300DzyIQvIh'});
+    await http.post(url, body: {'amount': amount,'stripe_secret':'sk_test_51KhdLXDJF8BD6oeLMv7NDIwvGn0Bylrf3sX1eLTMjAZlzcmaLLmHepwLBZ8jbNBsTLQ9JcW8Tcqkxhi1yJjJDL2300DzyIQvIh'});
     paymentIntentData = json.decode(response.body);
     await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(

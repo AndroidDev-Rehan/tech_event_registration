@@ -46,6 +46,9 @@ dependencies:
   shimmer: ^2.0.0
   sliding_up_panel: ^2.0.0+1
   flutter_stripe: ^1.0.11
+  image_picker: ^0.8.4+11
+  uuid: ^3.0.6
+  firebase_storage: ^10.0.3
   http: ^0.13.4
   google_sign_in: ^5.2.4
 
