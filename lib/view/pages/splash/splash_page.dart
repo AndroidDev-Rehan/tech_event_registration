@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/utils/authWrapper.dart';
 import 'package:tech_event_registration/view/pages/onboard/onborading_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
   route() {
     Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => const OnboardingPage()
+        builder: (context) => const AuthWrapper()
     )
     );
   }

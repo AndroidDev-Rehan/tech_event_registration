@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/dimension.dart';
+import 'package:tech_event_registration/view/pages/auth/login_page.dart';
+import 'package:tech_event_registration/view/pages/auth/sign_up_page.dart';
 import 'package:tech_event_registration/view/pages/splash/splash_page.dart';
 
 import '../../../utils/const/images.dart';
@@ -65,7 +67,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     child: Align(
       alignment: Alignment.center,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {Get.to(()=>LoginPage());},
           child:Container(
             height: Get.height*0.07,width: Get.width/1.2,
             child: const Center(
@@ -88,7 +90,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   _buildSignUp(){return  Align(
     alignment: Alignment.center,
     child: ElevatedButton(
-        onPressed: () {Get.to(()=>SplashScreen());},
+        onPressed: () {Get.to(()=>SignUpScreen());},
         child: Container(
           height: Get.height*0.07,width: Get.width/1.2,
           child: const Center(

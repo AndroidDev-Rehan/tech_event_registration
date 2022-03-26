@@ -18,7 +18,7 @@ class AuthWrapper extends StatelessWidget {
         AuthController controller = Get.find();
         User? user = Get.find<AuthController>().user;
         if(user == null){
-          return HomePage();
+          return OnboardingPage();
           // return Scaffold(body:SplashScreen(),);
         }else{
          // controller.getCurrentUser(user.uid);

@@ -18,33 +18,38 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: GetX(
-          builder: (AuthController controller) {
-            return ModalProgressHUD(
-              inAsyncCall: controller.loading,
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: Get.width,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children:  [
-                        const SizedBox(height: 20,),
-                        Image.asset("assets/images/logo.png", scale: 3,),
-                        const SizedBox(height: 20,),
-                        signInContainer(),
-                        const SizedBox(height: 20,),
-                        belowContainer(),
+      child: OrientationBuilder(
 
-                      ],
+        builder: (context, snapshot) {
+          return Scaffold(
+            body: GetX(
+              builder: (AuthController controller) {
+                return ModalProgressHUD(
+                  inAsyncCall: controller.loading,
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: Get.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children:  [
+                            const SizedBox(height: 20,),
+                            Image.asset("assets/images/logo.png", scale: 3,),
+                            const SizedBox(height: 20,),
+                            signInContainer(),
+                            const SizedBox(height: 20,),
+                            belowContainer(),
+
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
-          }
-        ),
+                );
+              }
+            ),
+          );
+        }
       ),
     );
   }
