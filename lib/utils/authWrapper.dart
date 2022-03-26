@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tech_event_registration/view/pages/auth/login_page.dart';
+import 'package:tech_event_registration/view/pages/onboard/onborading_page.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/user_controller.dart';
 
@@ -14,11 +14,11 @@ class AuthWrapper extends StatelessWidget {
       builder: (UserController controller) {
         User? user = Get.find<AuthController>().user;
         if(user == null){
-          return LoginPage();
+          return Scaffold(body:OnboardingPage(),);
         }else{
          // controller.getCurrentUser(user.uid);
           ///   return RootPage();
-          return Scaffold();
+          return Scaffold(body: Center(child: Text('check')),);
         }
       },
     );
