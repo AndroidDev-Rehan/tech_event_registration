@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tech_event_registration">
+    package="com.softec.tech_event_registration">
    <application
         android:label="tech_event_registration"
         android:name="${applicationName}"

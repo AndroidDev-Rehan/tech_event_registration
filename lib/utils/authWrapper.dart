@@ -13,11 +13,11 @@ class AuthWrapper extends StatelessWidget {
       builder: (UserController controller) {
         User? user = Get.find<AuthController>().user;
         if(user == null){
-          return Scaffold();
+          return Scaffold(body: Center(child: Text('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')),);
         }else{
          // controller.getCurrentUser(user.uid);
           ///   return RootPage();
-          return Scaffold();
+          return Scaffold(body: Center(child: Text('check')),);
         }
       },
     );

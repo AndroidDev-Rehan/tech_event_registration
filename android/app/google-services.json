@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "138908393376",
+    "project_id": "tech-event-c26d0",
+    "storage_bucket": "tech-event-c26d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138908393376:android:f6e5dd3525e4291f534ec5",
+        "android_client_info": {
+          "package_name": "com.softec.tech_event_registration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138908393376-8pm5gjop21mfhiuf9ks0v22kcdv7h87u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNp_aEiUurcrOUXsQ4Juem8zxk4-j2CQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138908393376-8pm5gjop21mfhiuf9ks0v22kcdv7h87u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
