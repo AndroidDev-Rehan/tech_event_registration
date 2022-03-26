@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:tech_event_registration/controllers/auth_controller.dart';
+
+String? categorySelectedValue = null;
+
 
 class MyDropDownButton extends StatefulWidget {
+
   String dropdownValue;
   final List<String> items;
 
@@ -25,12 +32,25 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
       ),
       // elevation: 16,
       // style: const TextStyle(color: Colors.deepPurple),
-      underline: SizedBox(
+      underline: const SizedBox(
         height: 0,
         width: 0,
       ),
       onChanged: (String? newValue) {
         setState(() {
+          AuthController controller = Get.find();
+          if(widget.items[0] == "Select Role") {
+            controller.selectedRole!.value = newValue!;
+            categorySelectedValue = newValue;
+          }
+          else if (widget.items[0] == "Select Age") {
+            controller.age = newValue;
+          }
+          else if (widget.items[0] == "Select Degree") {
+            controller.degree = newValue;
+
+          }
+
           widget.dropdownValue = newValue!;
         });
       },

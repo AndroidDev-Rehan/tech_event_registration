@@ -15,6 +15,7 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetX<UserController>(
       builder: (UserController controller) {
+        AuthController controller = Get.find();
         User? user = Get.find<AuthController>().user;
         if(user == null){
           return HomePage();
@@ -22,7 +23,16 @@ class AuthWrapper extends StatelessWidget {
         }else{
          // controller.getCurrentUser(user.uid);
           ///   return RootPage();
-          return Scaffold(body: Center(child: Text('check')),);
+          return Scaffold(
+            body: Center(child: InkWell(
+                child: const Text('check'),
+              onTap: () {
+                  controller.signOut();
+              }
+
+            )),
+
+          );
         }
       },
     );

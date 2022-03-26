@@ -6,24 +6,23 @@ class UserModel {
   String? name;
   DateTime? createdAt;
   String? email;
-  String? profileURL;
   DateTime? modifiedAt;
-  String? city;
-  String? genre;
-  String? bio ;
-  double? rating;
+
+  String? phoneNumber;
+  String? category;
+  String? age;
+  String? degree;
 
   UserModel({
       this.id,
       this.name,
       this.createdAt,
       this.email,
-      this.profileURL,
       this.modifiedAt,
-      this.city,
-      this.bio,
-      this.genre,
-      this.rating,
+    this.category,
+    this.phoneNumber,
+    this.age,
+    this.degree
   });
 
   Map<String, dynamic> toMap() {
@@ -31,11 +30,11 @@ class UserModel {
       "name": name,
       "email": email,
       "createdAt": createdAt,
-      "profileURL": profileURL,
       "modifiedAt": modifiedAt,
-      "city": city,
-      "bio": bio,
-      "genre": genre,
+      "category": category,
+      "phoneNumber" : phoneNumber,
+      'age' : age,
+      'degree' : degree
 
     };
   }
@@ -48,8 +47,10 @@ class UserModel {
       email: data["email"],
       createdAt: data["createdAt"].toDate(),
       modifiedAt: data["modifiedAt"].toDate(),
-      profileURL: data["profileURL"],
-      city: data["city"],
+      category: data['category'],
+      phoneNumber: data["phoneNumber"],
+      age: data['age'],
+      degree: data['degree'],
     );
   }
 }

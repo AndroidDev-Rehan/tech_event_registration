@@ -33,7 +33,7 @@ class UserController extends GetxController {
   void updateUserController(UserModel userModel) {
     _userModel.update((val) {
       val?.name = userModel.name;
-      val?.city = userModel.city;
+
     });
   }
 
@@ -44,7 +44,6 @@ class UserController extends GetxController {
 
   void updateUserProfilePhoto(String profileURL){
     _userModel.update((val) {
-      val!.profileURL = profileURL;
     });
   }
 
@@ -53,7 +52,7 @@ class UserController extends GetxController {
     try {
       _userModel.update((val) {
         val?.name = name;
-        val?.city = city;
+
       });
       await FirebaseFirestore.instance.collection("Users").doc(_userModel.value.id).update({
         "name":name ,

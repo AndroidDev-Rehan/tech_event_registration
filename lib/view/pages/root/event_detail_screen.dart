@@ -109,8 +109,7 @@ SizedBox(height: 8,),
       decoration: const BoxDecoration(
         color: ColorResources.COLOR_PRIMARY,
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-      ),
+            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),),
     );
   }
 

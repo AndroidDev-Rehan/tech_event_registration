@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tech_event_registration/controllers/user_controller.dart';
 import '../models/user.dart';
 import '../services/user_db.dart';
+import '../utils/authWrapper.dart';
 
 
 
@@ -15,6 +16,11 @@ class AuthController extends GetxController{
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController =  TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  Rx<String>? selectedRole="".obs;
+  String? age;
+  String? degree;
 
   ///Forgot Password
   TextEditingController forgotPasswordController = TextEditingController();
@@ -55,13 +61,18 @@ class AuthController extends GetxController{
       _loading.value = true ;
       UserCredential userCredential =  await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
       final user = UserModel(
+        email: emailController.text,
           id: userCredential.user!.uid,
           name: userNameController.text,
           createdAt: DateTime.now(),
-          modifiedAt: DateTime.now()
+          modifiedAt: DateTime.now(),
+        category: selectedRole!.value,
+        phoneNumber: phoneNumberController.text,
+        degree: degree,
+        age: age
       );
       await UserDatabase().createUser(user);
-    ///  Get.off(()=>AuthWrapper());
+      Get.off(()=>AuthWrapper());
       clearControllers();
       _loading.value = false ;
     }
@@ -122,11 +133,10 @@ class AuthController extends GetxController{
   void setUpUser() async{
     _loading.value = true ;
     String id = _firebaseUser.value!.uid ;
-    var user = UserModel(name: nameController.text,city: cityController.text);
+    var user = UserModel(name: nameController.text);
     try {
       await FirebaseFirestore.instance.collection("Users").doc(id).update({
         "name" : user.name,
-        "city" : user.city ,
       });
       _userController.updateUserController(user);
    ///   Get.offAll(()=>AuthWrapper());
