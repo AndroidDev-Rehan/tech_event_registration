@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/dimension.dart';
+import 'package:tech_event_registration/view/pages/splash/splash_page.dart';
 
 import '../../../utils/const/images.dart';
 
@@ -73,7 +74,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {Get.to(()=>SplashScreen());},
                       child: Container(
                         height: Get.height*0.07,width: Get.width/1.2,
                         child: const Center(
