@@ -10,6 +10,8 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container(child: Column(),),);
+    return Scaffold(body: Container(child: Column(
+      Image.asset('',height: ,)
+    ),),);
   }
 }

@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
 
-class ColorResources {
+class Dimensions {
 
 
   static  var ScreenHeight = Get.height;
