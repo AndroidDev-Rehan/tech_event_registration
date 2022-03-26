@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
 
@@ -20,11 +19,11 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children:  [
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Image.asset("assets/images/logo.png", scale: 3,),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   signInContainer(),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   belowContainer(),
 
                 ],
@@ -41,7 +40,7 @@ class LoginPage extends StatelessWidget {
       elevation: 10,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
         decoration:  BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -63,11 +62,11 @@ class LoginPage extends StatelessWidget {
                   Text("to continue", style: textStyle_22_600),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               textFieldsColumn(),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               forgotPassword(),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               loginButton("Login"),
             ],
           ),
@@ -108,9 +107,9 @@ class LoginPage extends StatelessWidget {
           onPressed: (){
 
           },
-          child: Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+          child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
         style: ElevatedButton.styleFrom(
-          fixedSize: Size(double.infinity, 50),
+          fixedSize: const Size(double.infinity, 50),
         )
       ),
     );
@@ -136,7 +135,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Don't have an account? ", style: TextStyle(color: Colors.black.withOpacity(0.7)),),
-              InkWell(child: Text("Create new account", style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
+              const InkWell(child: Text("Create new account", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w600),)),
             ],
           ),
         ),
@@ -150,8 +149,8 @@ class LoginPage extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.2)
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
               child: Text("Or"),
             ),
             Expanded(
