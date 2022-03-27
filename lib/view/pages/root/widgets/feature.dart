@@ -12,6 +12,7 @@ class Feature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: 250,
       child: FutureBuilder(
@@ -20,9 +21,10 @@ class Feature extends StatelessWidget {
 
             List<Widget> l=[];
             if(kFeatureData.hasData)
-            {print(kFeatureData.data![0]);
+            {
               for (int i = 0; i < kFeatureData.data!.length; i++) {
-                l.add(ListViews(kFeatureData:kFeatureData.data![0], index: i));
+
+                l.add(ListViews(kFeatureData:kFeatureData.data![i], index: i));
               }
               return CarouselSlider(
                 options: CarouselOptions( autoPlay: true,
@@ -40,7 +42,7 @@ class Feature extends StatelessWidget {
             return Shimmer.fromColors(direction: ShimmerDirection.ltr,
               baseColor: Colors.grey.shade400,
               highlightColor: Colors.white,
-              period: Duration(microseconds: 1000),
+              period: Duration(seconds: 2),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, __) => Padding(

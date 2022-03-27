@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:tech_event_registration/controllers/auth_controller.dart';
 import 'package:tech_event_registration/controllers/user_controller.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
+import 'package:tech_event_registration/view/pages/addevent/addeventpage.dart';
+import 'package:tech_event_registration/view/pages/advertisements/add_ads_page.dart';
 
 class MyDrawer extends StatelessWidget {
 
@@ -50,26 +52,43 @@ class MyDrawer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ListTile(
+                    authController.userModel!.category=='Manager'?ListTile(onTap: (){Get.to(()=>AddEventPage());},
                       leading: Icon(
                         CupertinoIcons.profile_circled,
                         color: ColorResources.COLOR_PRIMARY,
                       ),
                       title: Text(
-                        "Profile",
+                        "Add Event ",
                         textScaleFactor: 1.5,
                         style: TextStyle(
                           color: ColorResources.COLOR_PRIMARY,
                         ),
                       ),
-                    ),
-                    ListTile(
+                    ):SizedBox(),
+                    authController.userModel!.category=='Manager'?ListTile(onTap: (){Get.to(()=>AddAdvertisementPage());},
                       leading: Icon(
-                        CupertinoIcons.mail,
+                        CupertinoIcons.profile_circled,
                         color: ColorResources.COLOR_PRIMARY,
                       ),
                       title: Text(
-                        "Email me",
+                        "Add Advertisment",
+                        textScaleFactor: 1.5,
+                        style: TextStyle(
+                          color: ColorResources.COLOR_PRIMARY,
+                        ),
+                      ),
+                    ):SizedBox(),
+                    ListTile(
+                      onTap: (){
+                        AuthController controller = Get.find();
+                        controller.signOut();
+                      },
+                      leading: Icon(
+                        Icons.logout,
+                        color: ColorResources.COLOR_PRIMARY,
+                      ),
+                      title: Text(
+                        "Sign out",
                         textScaleFactor: 1.5,
                         style: TextStyle(
                           color: ColorResources.COLOR_PRIMARY,

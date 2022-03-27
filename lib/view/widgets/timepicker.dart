@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/controllers/addevent.dart';
 
 
 class TimePickerRow extends StatefulWidget {
@@ -11,10 +12,12 @@ class TimePickerRow extends StatefulWidget {
 }
 
 class _TimePickerRowState extends State<TimePickerRow> {
-  TimeOfDay time = TimeOfDay.now();
+  AddEventController _controller=Get.put(AddEventController());
+
 
   @override
   Widget build(BuildContext context) {
+    _controller.starttime = TimeOfDay.now();
     // final format = TimeOfDayFormat.H_colon_mm;
 
     return Column(
@@ -30,7 +33,7 @@ class _TimePickerRowState extends State<TimePickerRow> {
               TimeOfDay? newTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
               if(newTime!=null ){
                 setState(() {
-                  time = newTime;
+                  _controller.starttime = newTime;
                 });
               }
             },
@@ -43,7 +46,7 @@ class _TimePickerRowState extends State<TimePickerRow> {
               ),
               child:  Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                child: Text("${time.hour}:${time.minute}"),
+                child: Text("${_controller.starttime!.hour}:${_controller.starttime!.minute}"),
               ),
             ),
           ),

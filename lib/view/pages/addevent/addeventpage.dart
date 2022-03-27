@@ -1,14 +1,17 @@
 import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_event_registration/controllers/addevent.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
-import 'package:tech_event_registration/view/widgets/datepicker.dart';
-import 'package:tech_event_registration/view/widgets/timepicker.dart';
 import 'package:uuid/uuid.dart';
+
 import '../../../models/events.dart';
+import '../../widgets/datepicker.dart';
+import '../../widgets/timepicker.dart';
+
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageState extends State<AddEventPage> {
-  AddEventController _controller = Get.put(AddEventController());
+  AddEventController _controller=Get.put(AddEventController());
   XFile? image;
   TextEditingController _titlecontroller = TextEditingController();
   TextEditingController _venuecontroller = TextEditingController();
@@ -129,40 +132,32 @@ class _AddEventPageState extends State<AddEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(builder: (context, snapshot) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: ColorResources.COLOR_PRIMARY,
-          title: const Text(
-            'Add Event',
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+    return OrientationBuilder(
+
+      builder: (context, snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: ColorResources.COLOR_PRIMARY,
+            title: const Text(
+              'Add Event',
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-          ),
-          actions: [
-            IconButton(
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+            actions: [IconButton(
               onPressed: () async {
-                String img = await uploadImageToFirebase(image!);
-                Events data = Events(
-                    title: _titlecontroller.text,
-                    Image: img,
-                    venue: _venuecontroller.text,
-                    starttime: 'h',
-                    endtime: 's',
-                    description: _descontroller.text,
-                    price: _stallcontroller.text,
-                    stall: _stallcontroller.text,
-                    educriteria: _controller.degree!,
-                    agecriteria: _controller.age!);
+                String img=await uploadImageToFirebase(image!);
+                Events data=Events(title: _titlecontroller.text,Image: img,venue: _venuecontroller.text,starttime: _controller.starttime.toString(),endtime: _controller.date.toString(),description: _descontroller.text,price: _stallcontroller.text,stall: _stallcontroller.text,educriteria: _controller.degree!,agecriteria: _controller.age!);
+
               },
               icon: const Icon(
                 Icons.upload_outlined,
@@ -331,13 +326,12 @@ class _AddEventPageState extends State<AddEventPage> {
     });
   }
 }
-
 class MyDropDownButton extends StatefulWidget {
+
   String dropdownValue;
   final List<String> items;
 
-  MyDropDownButton({Key? key, required this.dropdownValue, required this.items})
-      : super(key: key);
+  MyDropDownButton({Key? key, required this.dropdownValue, required this.items}) : super(key: key);
 
   @override
   State<MyDropDownButton> createState() => _MyDropDownButtonState();
@@ -352,7 +346,7 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
       isExpanded: true,
       value: widget.dropdownValue,
       dropdownColor: Colors.white,
-      icon: Icon(
+      icon:  Icon(
         Icons.keyboard_arrow_down_sharp,
         color: Colors.black.withOpacity(0.6),
       ),
@@ -368,8 +362,10 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
 
           if (widget.items[0] == "Select Age") {
             controller.age = newValue;
-          } else if (widget.items[0] == "Select Degree") {
+          }
+          else if (widget.items[0] == "Select Degree") {
             controller.degree = newValue;
+
           }
 
           widget.dropdownValue = newValue!;
@@ -388,13 +384,13 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
   }
 }
 
+
 customTextField(String hint, TextEditingController controller,
     FormFieldValidator<String?> validator,
     {TextInputType type = TextInputType.text}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
-    child: TextFormField(
-      keyboardType: type,
+    child: TextFormField(keyboardType:type ,
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
@@ -408,6 +404,7 @@ customTextField(String hint, TextEditingController controller,
 }
 
 Future<String> uploadImageToFirebase(XFile _imageFile) async {
+
   String fileName = const Uuid().v4();
   Reference firebaseStorageRef =
       FirebaseStorage.instance.ref().child('uploads/${fileName}');

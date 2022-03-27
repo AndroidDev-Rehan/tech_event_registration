@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
+import '../../controllers/addevent.dart';
+
 
 
 class DatePickerRow extends StatefulWidget {
@@ -13,11 +15,12 @@ class DatePickerRow extends StatefulWidget {
 }
 
 class _DatePickerRowState extends State<DatePickerRow> {
+  AddEventController _controller=Get.put(AddEventController());
 
-  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    _controller.date = DateTime.now();
     final format = DateFormat("dd MMMM, yyyy");
 
     return Padding(
@@ -34,7 +37,7 @@ class _DatePickerRowState extends State<DatePickerRow> {
               DateTime? newDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1980), lastDate: DateTime.now());
               if(newDate!=null ){
                 setState(() {
-                  date = newDate;
+                  _controller.date = newDate;
                 });
               }
 //              DatePickerDialog(initialDate: DateTime.now(), firstDate: DateTime(1980), lastDate: DateTime.now());
@@ -48,7 +51,7 @@ class _DatePickerRowState extends State<DatePickerRow> {
               ),
               child:  Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                child: Text(format.format(date)),
+                child: Text(format.format(_controller.date!)),
               ),
             ),
           ),

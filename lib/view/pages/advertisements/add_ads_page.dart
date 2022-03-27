@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_event_registration/models/feature.dart';
+import 'package:tech_event_registration/services/user_db.dart';
 import '../../../controllers/addevent.dart';
 import '../../../utils/const/colors.dart';
 import '../../widgets/datepicker.dart';
@@ -147,6 +148,9 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
             IconButton(
               onPressed: () async {
                 String img = await uploadImageToFirebase(image!);
+                Feature data=Feature(Image: img,title: _titlecontroller.text);
+                UserDatabase.setfeature(data);
+                Get.back();
               },
               icon: const Icon(
                 Icons.upload_outlined,

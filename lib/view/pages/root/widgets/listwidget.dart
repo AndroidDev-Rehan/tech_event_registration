@@ -9,6 +9,7 @@ class ListViews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(kFeatureData.Image);
     return Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(vertical: 15,horizontal: 0),

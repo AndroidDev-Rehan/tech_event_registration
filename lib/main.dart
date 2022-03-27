@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
-      home: AddAdvertisementPage(),
+      home: SplashScreen(),
       // home: AuthWrapper(),
     );
   }

@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+
+import '../../controllers/event.dart';
 
 class Payment {
 
@@ -32,6 +37,8 @@ class Payment {
               clientSecret: paymentIntentData!['client_secret'],
               confirmPayment: true
           ));
+      EventController _eventcontroller = Get.put(EventController());
+      FirebaseFirestore.instance.collection('Events').doc(_eventcontroller.selectedevent.uid).set({'stlist':FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])},SetOptions(merge: true));
       paymentIntentData=null;
     }
     on StripeException catch (e) {
@@ -44,3 +51,4 @@ class Payment {
     }
   }
 }
+

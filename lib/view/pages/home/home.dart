@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                                 topRight: Radius.circular(40))),
                             width: Get.width,child: Events()
                         ),top:Get.height/2.35 ,left: 0,),
-                        EventDetailScreen()
+                         EventDetailScreen()
 
                       ],
                     ))

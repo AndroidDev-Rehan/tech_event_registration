@@ -26,6 +26,7 @@ class UserDatabase{
       List<Feature> list=[];
       var data=await FirebaseFirestore.instance.collection("Adds").get();
      data.docs.forEach((element) { list.add(Feature.fromJson(element.data()));});
+     print(list.length);
      return list;
 
     }
@@ -40,7 +41,7 @@ class UserDatabase{
       List<Events> list=[];
       var data=await FirebaseFirestore.instance.collection("Events").get();
       print(data);
-       data.docs.forEach((element) { list.add(Events.fromJson(element.data()));});
+       data.docs.forEach((element) { list.add(Events.fromJson(element.data(),element.id));});
 
       return list;
 
@@ -55,6 +56,18 @@ class UserDatabase{
     try{
 
        FirebaseFirestore.instance.collection("Events").add(event.toJson());
+
+    }
+    catch(e){
+      print(e);
+      Get.snackbar("error", e.toString(),snackPosition: SnackPosition.BOTTOM ) ;
+
+    }
+  }
+  static void setfeature(Feature d) async {
+    try{
+
+      FirebaseFirestore.instance.collection("Adds").add(d.toJson());
 
     }
     catch(e){

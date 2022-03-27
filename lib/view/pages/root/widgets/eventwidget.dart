@@ -38,9 +38,12 @@ print('next');
 
    EventDetailController _controller=Get.put(EventDetailController());
   return GestureDetector(
-    onTap: (){_controller.panelController.open();
-      EventController _eventcontroller=Get.put(EventController());
-      _eventcontroller.selectedevent=data;},
+    onTap: (){EventController _eventcontroller=Get.put(EventController());
+    _eventcontroller.setevent(data);
+
+      _controller.panelController.open();
+
+      },
     child: Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(vertical: 15,horizontal: 0),

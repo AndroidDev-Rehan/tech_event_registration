@@ -1,33 +1,49 @@
 {
   "project_info": {
-    "project_number": "138908393376",
-    "project_id": "tech-event-c26d0",
-    "storage_bucket": "tech-event-c26d0.appspot.com"
+    "project_number": "67360030493",
+    "project_id": "tech-data-d8196",
+    "storage_bucket": "tech-data-d8196.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138908393376:android:f6e5dd3525e4291f534ec5",
+        "mobilesdk_app_id": "1:67360030493:android:e141cd8b3d2a0218b0abf4",
         "android_client_info": {
           "package_name": "com.softec.tech_event_registration"
         }
       },
       "oauth_client": [
         {
-          "client_id": "138908393376-8pm5gjop21mfhiuf9ks0v22kcdv7h87u.apps.googleusercontent.com",
+          "client_id": "67360030493-4lqd4afoc63ekuns3s80ij2u71ptevo8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.softec.tech_event_registration",
+            "certificate_hash": "a80edb0a7c85b98cb87b1dc84dc05aabcde9f583"
+          }
+        },
+        {
+          "client_id": "67360030493-js0eqcujj3imucgp37k3k3tt58mb25h1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.softec.tech_event_registration",
+            "certificate_hash": "df830526f079bc4e9303d11a40a4476218b0b1b7"
+          }
+        },
+        {
+          "client_id": "67360030493-bgnjotqeqf4902c4ojfcjatmponl43v8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNp_aEiUurcrOUXsQ4Juem8zxk4-j2CQM"
+          "current_key": "AIzaSyD5kciM20pbGisLAL4G7XRRzqt0yTOtRGY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "138908393376-8pm5gjop21mfhiuf9ks0v22kcdv7h87u.apps.googleusercontent.com",
+              "client_id": "67360030493-bgnjotqeqf4902c4ojfcjatmponl43v8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
