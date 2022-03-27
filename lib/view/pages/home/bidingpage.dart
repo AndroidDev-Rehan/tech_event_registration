@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_event_registration/controllers/addevent.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
+import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../controllers/event.dart';
@@ -114,14 +115,14 @@ class _BiddingPageState extends State<BiddingPage> {
                                         Form(
                                             key: _signUpFormKey,
                                             child: customTextField(
-                                                'Enter bidding amount',
+                                                'Current bid ${bidvalue} ',
                                                 _bidcontroller, (value) {
                                                   print(bidvalue);
                                                   print(_bidcontroller.text);
                                               if (int.parse(
-                                                      _bidcontroller.text) <
+                                                      _bidcontroller.text) <=
                                                   bidvalue) {
-                                                return 'Bid higher than previous bid';
+                                                return 'Please Bid higher than ${bidvalue}';
                                               }
                                               return null;
                                             })),
@@ -148,6 +149,7 @@ class _BiddingPageState extends State<BiddingPage> {
                                                     }
 
                                                 }, SetOptions(merge: true));
+                                                Get.off(()=>SponsorHomeScreen());
                                                 Get.snackbar(
                                                     'Sucess', 'Bid Completed.');
                                               }
@@ -183,7 +185,7 @@ class _BiddingPageState extends State<BiddingPage> {
           print('hiiiiiiiiii');
           selectedindex = index;
           bidding = true;
-          Map<String,dynamic> list =data['bid'];
+          Map<String,dynamic> list =data['bid']??{};
           print('fffffffffff'+index.toString());
 
          bidvalue=list[index.toString()]==null?0:int.parse(list[index.toString()]['value']);

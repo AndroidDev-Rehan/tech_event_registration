@@ -1,9 +1,11 @@
 import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tech_event_registration/utils/authWrapper.dart';
 import 'package:tech_event_registration/view/pages/onboard/onborading_page.dart';
+
+import '../../../controllers/auth_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,14 +19,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     // TODO: implement initState
+//     AuthController controller = Get.find();
+// if(controller.userModel==null)
+//     controller.userModel=await controller.getUser(FirebaseAuth.instance.currentUser!.uid);
     super.initState();
     startTime();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 2),)..repeat();
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 3),)..repeat();
   }
 
   startTime() async {
     ///todo duration
-    var duration = const Duration(milliseconds: 1850);
+    var duration = const Duration(milliseconds: 3000);
     return Timer(duration, route);
   }
   route() {

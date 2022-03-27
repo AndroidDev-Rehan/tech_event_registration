@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:tech_event_registration/controllers/auth_controller.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
+import 'package:tech_event_registration/view/pages/auth/forget_page.dart';
 import 'package:tech_event_registration/view/pages/auth/sign_up_page.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -167,11 +168,14 @@ class LoginPage extends StatelessWidget {
   }
 
   forgotPassword(){
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: const [
-        Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),),
-      ],
+    return GestureDetector(
+      onTap: (){Get.to(()=>ForgetPage());},
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: const [
+          Text("Forgot Password?", style: TextStyle(color: ColorResources.COLOR_PRIMARY, fontWeight: FontWeight.bold, fontSize: 16),),
+        ],
+      ),
     );
   }
 

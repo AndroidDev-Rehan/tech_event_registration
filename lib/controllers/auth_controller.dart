@@ -35,6 +35,9 @@ class AuthController extends GetxController{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value ;
+ setuser(){
+   _firebaseUser.value=null;
+ }
 
   UserModel? userModel;
 
@@ -93,6 +96,7 @@ class AuthController extends GetxController{
   }
 
   void login() async {
+
     _loading.value = true ;
     try{
       await _auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
@@ -125,11 +129,8 @@ class AuthController extends GetxController{
     try{
 
       _loading.value = true ;
-      User firebaseUser = _auth.currentUser! ;
-      firebaseUser.updateEmail(emailController.text);
-
+      FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
       _loading.value = false ;
-
       Get.back();
       Get.snackbar("Success","Email Updated",snackPosition: SnackPosition.BOTTOM);
     }
@@ -181,6 +182,7 @@ class AuthController extends GetxController{
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
       Get.find<UserController>().clear();
+
       Get.offAll(LoginPage());
     }
     catch(e){
@@ -248,6 +250,9 @@ class AuthController extends GetxController{
           user = userCredential.user;
           _loading.value = false;
           firstTimeLogin = !(await checkUserExist(user!.uid));
+          AuthController controller = Get.find();
+
+          userModel = await controller.getUser(FirebaseAuth.instance.currentUser!.uid);
           Get.off(const AuthWrapper());
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {

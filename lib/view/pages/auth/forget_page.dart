@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tech_event_registration/controllers/auth_controller.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:tech_event_registration/utils/const/globals.dart';
 
@@ -84,7 +85,7 @@ class ForgetPage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        customTextField("Enter Email", TextEditingController(), Icons.person),
+        customTextField("Enter Email", Get.find<AuthController>().emailController, Icons.person),
       ],
     );
   }
@@ -92,13 +93,14 @@ class ForgetPage extends StatelessWidget {
   customTextField(String hint,TextEditingController controller, IconData prefixIcon  ){
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: TextFormField(
+      child: TextFormField(controller: Get.find<AuthController>().emailController,
         decoration: InputDecoration(
           hintText: hint,
           filled: true,
           border: InputBorder.none,
 //          prefix: Icon(prefixIcon),
           prefixIcon: Icon(prefixIcon),
+
         ),
       ),
     );
@@ -109,7 +111,8 @@ class ForgetPage extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: (){
-
+AuthController _controller=Get.find();
+_controller.resetEmail();
           },
           child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
           style: ElevatedButton.styleFrom(

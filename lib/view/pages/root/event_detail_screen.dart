@@ -87,12 +87,14 @@ const SizedBox(height: 8,),
                   Row(
                     children: [
 //                      Text('•',style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold,color: ColorResources.COLOR_PRIMARY),),
-                      Row(
-                        children: [
-                          const Text('Venue:    ',style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: ColorResources.COLOR_PRIMARY),),
-                          Text(_eventcontroller.selectedevent.venue,style: const TextStyle(fontSize: 19),),
+                      Flexible(
+                        child: Row(
+                          children: [
+                            const Text('Venue:    ',style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: ColorResources.COLOR_PRIMARY),),
+                            Text(_eventcontroller.selectedevent.venue,style: const TextStyle(fontSize: 19),overflow: TextOverflow.ellipsis,),
 
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

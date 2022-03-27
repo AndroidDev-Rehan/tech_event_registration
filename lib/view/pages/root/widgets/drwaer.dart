@@ -82,6 +82,8 @@ class MyDrawer extends StatelessWidget {
                       onTap: (){
                         AuthController controller = Get.find();
                         controller.signOut();
+                        controller.clearControllers();
+
                       },
                       leading: Icon(
                         Icons.logout,

@@ -3,15 +3,22 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tech_event_registration/controllers/event.dart';
+import 'package:tech_event_registration/models/events.dart';
+import 'package:tech_event_registration/services/user_db.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
+import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
 import 'package:tech_event_registration/view/pages/root/widgets/drwaer.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../utils/const/globals.dart';
+import 'widgets/eventdetailcontroller.dart';
 
 class SponsorHomeScreen extends StatelessWidget {
   SponsorHomeScreen({Key? key}) : super(key: key);
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<Events> allEventsList = [];
 
   getUser()async{
 
@@ -27,6 +34,8 @@ class SponsorHomeScreen extends StatelessWidget {
       log("not null");
       log(controller.userModel!.name!);
     }
+
+    allEventsList = await UserDatabase.getevents();
 
   }
 
@@ -51,6 +60,7 @@ class SponsorHomeScreen extends StatelessWidget {
                 } else {
                   return Stack(
                   children: [
+
                     Column(
                       children: [
                         purpleCurveContainer(),
@@ -64,9 +74,10 @@ class SponsorHomeScreen extends StatelessWidget {
                       left: 0,
                       right: 0,
                       top: 80,
-                        child: eventsList(),
+                        child: eventsList(allEventsList),
 
-                    )
+                    ), EventDetailScreen()
+
 
 
                     // Positioned(
@@ -95,41 +106,48 @@ class SponsorHomeScreen extends StatelessWidget {
     );
   }
 
-  eventDetailContainerForSponsor() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-      child: Material(
-        elevation: 10,
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  const [
-                    Text(
-                      "App Development Competition",
-                      style: textStyle_22_600,
-                    ),
-                    SizedBox(height: 10,),
-                    Text("All event details will be shown here.All event details will be shown here.All event details will be shown here.All event details will be shown here."),
-                    SizedBox(height: 10,),
-                    Text("27th January, 2021", style: TextStyle(fontWeight: FontWeight.bold),),
-                  ],
+  eventDetailContainerForSponsor(Events list ) {
+    EventController _controller=Get.put(EventController());
+    return GestureDetector(
+      onTap: (){_controller.setevent(list);
+      EventDetailController _vcontroller=Get.put(EventDetailController());
+      _vcontroller.panelController.open();
+        },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        child: Material(
+          elevation: 10,
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:  [
+                      Text(
+                        list.title,
+                        style: textStyle_22_600,
+                      ),
+                      SizedBox(height: 10,),
+                      Text(list.description),
+                      SizedBox(height: 10,),
+                      Text(list.endtime, style: TextStyle(fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Image.asset("assets/images/app_dev.jpeg",height: 100,width: 100,fit: BoxFit.cover,),
-              )
-            ],
+                Expanded(
+                  child: Image.network(list.Image,height: 100,width: 100,fit: BoxFit.cover,),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -158,16 +176,8 @@ class SponsorHomeScreen extends StatelessWidget {
     );
   }
 
-  eventsList() {
-    return Container(height:Get.height-120,child: ListView.builder( shrinkWrap:true,itemBuilder:(context,index){return eventDetailContainerForSponsor();},itemCount: 5,));
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        eventDetailContainerForSponsor(),
-        eventDetailContainerForSponsor(),
-        eventDetailContainerForSponsor(),
-        eventDetailContainerForSponsor(),
-      ],
-    );
+  eventsList(List<Events> allEventsList) {
+    return Container(height:Get.height-120,child: ListView.builder( shrinkWrap:true,itemBuilder:(context,index){return eventDetailContainerForSponsor(allEventsList[index]);},itemCount: allEventsList.length,));
+
   }
 }

@@ -15,7 +15,7 @@ class Events extends StatelessWidget {
           builder: (context,AsyncSnapshot<List> kFeatureData) {
             List<Widget> l = [];
             if (kFeatureData.hasData) {
-              print(kFeatureData.data!.length);
+              print('indexxxxxxxxxxxx'+kFeatureData.data!.length.toString());
               return ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
@@ -24,16 +24,17 @@ class Events extends StatelessWidget {
                       children: [
                         buildEvent(kFeatureData.data![i]),
                         SizedBox(
-                          height: 20,
+                          height: 100,
                         )
                       ],
                     );
                   } else if (i % 2 == 0) {
                     return EventWidget(kFeatureData: kFeatureData.data!, index: i);
-                  } else if (i == kFeatureData.data!.length - 1)
+                  } else if (i == kFeatureData.data!.length-1)
                     return Container(
-                      height: 20,
+                      height: 100,
                     );
+
                   return Container();
                 },
                 itemCount: kFeatureData.data!.length,

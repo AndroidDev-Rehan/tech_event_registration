@@ -5,23 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_event_registration/controllers/addevent.dart';
+import 'package:tech_event_registration/services/user_db.dart';
 import 'package:tech_event_registration/utils/const/colors.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../models/events.dart';
 import '../../widgets/datepicker.dart';
 import '../../widgets/timepicker.dart';
-
+import '../home/home.dart';
 
 class AddEventPage extends StatefulWidget {
-  const AddEventPage({Key? key}) : super(key: key);
+  AddEventPage({Key? key}) : super(key: key);
+
 
   @override
   State<AddEventPage> createState() => _AddEventPageState();
 }
 
 class _AddEventPageState extends State<AddEventPage> {
-  AddEventController _controller=Get.put(AddEventController());
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
+  bool loading = false;
+  AddEventController _controller = Get.put(AddEventController());
   XFile? image;
   TextEditingController _titlecontroller = TextEditingController();
   TextEditingController _venuecontroller = TextEditingController();
@@ -132,206 +139,286 @@ class _AddEventPageState extends State<AddEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: ColorResources.COLOR_PRIMARY,
-            title: const Text(
-              'Add Event',
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            ),
-            actions: [IconButton(
-              onPressed: () async {
-                String img=await uploadImageToFirebase(image!);
-                Events data=Events(title: _titlecontroller.text,Image: img,venue: _venuecontroller.text,starttime: _controller.starttime.toString(),endtime: _controller.date.toString(),description: _descontroller.text,price: _stallcontroller.text,stall: _stallcontroller.text,educriteria: _controller.degree!,agecriteria: _controller.age!);
-
-              },
-              icon: const Icon(
-                Icons.upload_outlined,
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: Get.width,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'Basic Details',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text('Event Title',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customTextField('title', _titlecontroller, (value) => null),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('Enter Description',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customTextField(
-                      'Description', _descontroller, (value) => null),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('Price of the Ticket',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customTextField(
-                    '\$',
-                    _paymentcontroller,
-                    (value) => null,
-                    type: TextInputType.number,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('Venue',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customTextField(
-                      'Where is the event', _venuecontroller, (value) => null),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      TimePickerRow(),
-                      DatePickerRow(),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('No of Stalls',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customTextField(
-                    'Stalls',
-                    _stallcontroller,
-                    (value) => null,
-                    type: TextInputType.number,
-                  ),
-                  const Text('Student Eligibility criteria',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      color: Colors.grey.withOpacity(0.2),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: MyDropDownButton(
-                        dropdownValue: "Select Age",
-                        items: const [
-                          "Select Age",
-                          "Under 18",
-                          "Above 18",
-                          "Above 25",
-                          "Above 35"
-                        ],
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      color: Colors.grey.withOpacity(0.2),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: MyDropDownButton(
-                        dropdownValue: "Select Degree",
-                        items: const [
-                          "Select Degree",
-                          "Matric",
-                          "Intermediate",
-                          "Undergraduate",
-                          "Graduate"
-                        ],
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('Upload Photo',
-                      style: TextStyle(color: Colors.grey, fontSize: 20)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        ImagePickersheet();
-                      },
-                      child: image == null
-                          ? Container(
-                              height: Get.height / 5,
-                              width: Get.width,
-                              child: const Center(
-                                child: Icon(Icons.add),
-                              ),
-                              color: Colors.grey.withOpacity(0.2),
-                            )
-                          : Image.file(
-                              File(image!.path),
-                              height: Get.height / 5,
-                              width: Get.width,
-                              fit: BoxFit.cover,
-                            )),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
+    return OrientationBuilder(builder: (context, snapshot) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: ColorResources.COLOR_PRIMARY,
+          title: (loading)
+              ? Center(
+                  child: Container(),
+                )
+              : const Text(
+                  'Add Event',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
           ),
+          actions: [
+            (loading)
+                ? Center(
+                    child: Container(),
+                  )
+                : IconButton(
+                    onPressed: () async {
+                      if(_formKey.currentState!.validate()){
+                        setState(() {
+                          loading = true;
+                        });
+                        String img = await uploadImageToFirebase(image!);
+                        Events data = Events(
+                            title: _titlecontroller.text,
+                            Image: img,
+                            venue: _venuecontroller.text,
+                            starttime: _controller.starttime.toString(),
+                            endtime: _controller.date.toString(),
+                            description: _descontroller.text,
+                            price: _stallcontroller.text,
+                            stall: _stallcontroller.text,
+                            educriteria: _controller.degree!,
+                            agecriteria: _controller.age!);
+                        UserDatabase.setevents(data);
+                        setState(() {
+                          loading = false;
+                        });
+                        Get.off(() => const HomePage());
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.upload_outlined,
+                      color: Colors.white,
+                    ),
+                  )
+          ],
         ),
+        body: (loading)
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: SizedBox(
+                  width: Get.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            'Basic Details',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text('Event Title',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          customTextField(
+                            'Title',
+                            _titlecontroller,
+                            (String? value) {
+                              if (value == null) {
+                                return 'title is required';
+                              }
+                              if (value.isEmpty) {
+                                return 'title is required';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('Enter Description',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          customTextField('Description', _descontroller,
+                              (String? value) {
+                            if (value == null) {
+                              return 'description is required';
+                            }
+                            if (value.isEmpty) {
+                              return 'description is required';
+                            }
+                            return null;
+                          }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('Price of the Ticket',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          customTextField(
+                            '\$',
+                            _paymentcontroller,
+                            (String? value) {
+                              if (value == null) {
+                                return 'price is required';
+                              }
+                              if (value.isEmpty) {
+                                return 'price is required';
+                              }
+                              return null;
+                            },
+                            type: TextInputType.number,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('Venue',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          customTextField('Where is the event', _venuecontroller,
+                              (String? value) {
+                            if (value == null) {
+                              return 'venue is required';
+                            }
+                            if (value.isEmpty) {
+                              return 'venue is required';
+                            }
+                            return null;
+                          }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              const TimePickerRow(),
+                              const DatePickerRow(),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('No of Stalls',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          customTextField(
+                            'Stalls',
+                            _stallcontroller,
+                            (String? value) {
+                              if (value == null) {
+                                return 'stalls is required';
+                              }
+                              if (value.isEmpty) {
+                                return 'stalls is required';
+                              }
+                              return null;
+                            },
+                            type: TextInputType.number,
+                          ),
+                          const Text('Student Eligibility criteria',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                              color: Colors.grey.withOpacity(0.2),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: MyDropDownButton(
+                                dropdownValue: "Select Age",
+                                items: const [
+                                  "Select Age",
+                                  "Under 18",
+                                  "Above 18",
+                                  "Above 25",
+                                  "Above 35"
+                                ],
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                              color: Colors.grey.withOpacity(0.2),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: MyDropDownButton(
+                                dropdownValue: "Select Degree",
+                                items: const [
+                                  "Select Degree",
+                                  "Matric",
+                                  "Intermediate",
+                                  "Undergraduate",
+                                  "Graduate"
+                                ],
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('Upload Photo',
+                              style: TextStyle(color: Colors.grey, fontSize: 20)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                ImagePickersheet();
+                              },
+                              child: image == null
+                                  ? Container(
+                                      height: Get.height / 5,
+                                      width: Get.width,
+                                      child: const Center(
+                                        child: Icon(Icons.add),
+                                      ),
+                                      color: Colors.grey.withOpacity(0.2),
+                                    )
+                                  : Image.file(
+                                      File(image!.path),
+                                      height: Get.height / 5,
+                                      width: Get.width,
+                                      fit: BoxFit.cover,
+                                    )),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
       );
     });
   }
 }
-class MyDropDownButton extends StatefulWidget {
 
+class MyDropDownButton extends StatefulWidget {
   String dropdownValue;
   final List<String> items;
 
-  MyDropDownButton({Key? key, required this.dropdownValue, required this.items}) : super(key: key);
+  MyDropDownButton({Key? key, required this.dropdownValue, required this.items})
+      : super(key: key);
 
   @override
   State<MyDropDownButton> createState() => _MyDropDownButtonState();
@@ -346,7 +433,7 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
       isExpanded: true,
       value: widget.dropdownValue,
       dropdownColor: Colors.white,
-      icon:  Icon(
+      icon: Icon(
         Icons.keyboard_arrow_down_sharp,
         color: Colors.black.withOpacity(0.6),
       ),
@@ -362,10 +449,8 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
 
           if (widget.items[0] == "Select Age") {
             controller.age = newValue;
-          }
-          else if (widget.items[0] == "Select Degree") {
+          } else if (widget.items[0] == "Select Degree") {
             controller.degree = newValue;
-
           }
 
           widget.dropdownValue = newValue!;
@@ -384,13 +469,13 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
   }
 }
 
-
 customTextField(String hint, TextEditingController controller,
     FormFieldValidator<String?> validator,
     {TextInputType type = TextInputType.text}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
-    child: TextFormField(keyboardType:type ,
+    child: TextFormField(
+      keyboardType: type,
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
@@ -404,7 +489,6 @@ customTextField(String hint, TextEditingController controller,
 }
 
 Future<String> uploadImageToFirebase(XFile _imageFile) async {
-
   String fileName = const Uuid().v4();
   Reference firebaseStorageRef =
       FirebaseStorage.instance.ref().child('uploads/${fileName}');

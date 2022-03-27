@@ -34,7 +34,7 @@ class _DatePickerRowState extends State<DatePickerRow> {
           SizedBox(height: 10,),
           InkWell(
             onTap: () async{
-              DateTime? newDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1980), lastDate: DateTime.now());
+              DateTime? newDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2090));
               if(newDate!=null ){
                 setState(() {
                   _controller.date = newDate;

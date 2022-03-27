@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_event_registration/models/feature.dart';
 import 'package:tech_event_registration/services/user_db.dart';
+import 'package:tech_event_registration/view/pages/home/home.dart';
 import '../../../controllers/addevent.dart';
 import '../../../utils/const/colors.dart';
 import '../../widgets/datepicker.dart';
@@ -19,6 +20,8 @@ class AddAdvertisementPage extends StatefulWidget {
 }
 
 class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
+
+bool loading=false;
   XFile? image;
   final TextEditingController _titlecontroller = TextEditingController();
 
@@ -122,6 +125,7 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
       ),
     ));
   }
+GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +139,9 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           centerTitle: true,
-          leading: IconButton(
+          leading:(loading)?
+          Center(child:Container(),)
+              : IconButton(
             onPressed: () {
               Get.back();
             },
@@ -145,13 +151,22 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
             ),
           ),
           actions: [
-            IconButton(
+            (loading)?
+            Center(child:Container(),)
+                :IconButton(
               onPressed: () async {
-                String img = await uploadImageToFirebase(image!);
-                Feature data=Feature(Image: img,title: _titlecontroller.text);
-                UserDatabase.setfeature(data);
-                Get.back();
-              },
+                if(_formKey.currentState!.validate()&&image!=null) {
+                        loading = true;
+                        setState(() {});
+                        String img = await uploadImageToFirebase(image!);
+                        Feature data =
+                            Feature(Image: img, title: _titlecontroller.text);
+                        UserDatabase.setfeature(data);
+                        loading = false;
+                        setState(() {});
+                        Get.off(() => HomePage());
+                      }
+                    },
               icon: const Icon(
                 Icons.upload_outlined,
                 color: Colors.white,
@@ -159,7 +174,9 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
             )
           ],
         ),
-        body: SingleChildScrollView(
+        body: (loading)?
+        Center(child: CircularProgressIndicator(),)
+            :SingleChildScrollView(
           child: SizedBox(
             width: Get.width,
             child: Padding(
@@ -185,7 +202,15 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  customTextField('title', _titlecontroller, (value) => null),
+                  Form(key: _formKey,child:customTextField('title', _titlecontroller, (value) {
+                    if (value == null) {
+                      return 'Title is required';
+                    }
+                    if (value.isEmpty) {
+                      return 'Title is required';
+                    }
+                    return null;
+                  })),
                   const SizedBox(
                     height: 10,
                   ),
