@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             key: scaffoldKey,
             drawer: MyDrawer(),
             body: FutureBuilder(
-              future: Future.delayed(Duration(seconds: 6)),
+              future: getUser(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
                 {
@@ -56,8 +56,21 @@ class _HomePageState extends State<HomePage> {
 
                           child: Column(
                             children: [
-                              Image.asset('assets/images/logo.png',color: Colors.white,height: 80,width: 200,)
-                              ,
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: InkWell(
+                                        onTap: (){
+                                          scaffoldKey.currentState!.openDrawer();
+                                        },
+                                        child: Icon(Icons.menu, color: Colors.white,)),
+                                  ),
+                                  Spacer(),
+                                  Image.asset('assets/images/logo.png',color: Colors.white,height: 80,width: 200,),
+                                  Spacer()
+                                ],
+                              ),
                               Feature(),
 
                             ],
@@ -94,3 +107,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
