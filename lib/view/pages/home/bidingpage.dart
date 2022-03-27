@@ -184,8 +184,9 @@ class _BiddingPageState extends State<BiddingPage> {
           selectedindex = index;
           bidding = true;
           Map<String,dynamic> list =data['bid'];
-          print('ffffffff'+list[index.toString()]['value']);
-          bidvalue=list[index.toString()]==null?'100':list['index']['value']??50;
+          print('fffffffffff'+index.toString());
+
+         bidvalue=list[index.toString()]==null?0:int.parse(list[index.toString()]['value']);
 
           setState(() {});
         },
