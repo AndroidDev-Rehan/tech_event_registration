@@ -2,12 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:tech_event_registration/view/pages/addevent/addeventpage.dart';
-import 'package:tech_event_registration/view/pages/advertisements/add_ads_page.dart';
-import 'package:tech_event_registration/view/pages/root/event_detail_screen.dart';
-import 'package:tech_event_registration/view/pages/root/sponsor_home.dart';
-import 'package:tech_event_registration/view/pages/splash/splash_page.dart';
-
+import 'package:tech_event_registration/view/pages/meetings/schedule_meeting.dart';
 import 'controllers/bindings/binding.dart';
 import 'utils/authWrapper.dart';
 
@@ -35,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: AuthBinding(),
       debugShowCheckedModeBanner: false,
-      home: AddAdvertisementPage(),
+      home: ScheduleMeetingScreen(),
       // home: AuthWrapper(),
     );
   }
