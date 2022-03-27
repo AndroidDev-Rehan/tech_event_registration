@@ -147,7 +147,6 @@ class _AddAdvertisementPageState extends State<AddAdvertisementPage> {
             IconButton(
               onPressed: () async {
                 String img = await uploadImageToFirebase(image!);
-
               },
               icon: const Icon(
                 Icons.upload_outlined,
