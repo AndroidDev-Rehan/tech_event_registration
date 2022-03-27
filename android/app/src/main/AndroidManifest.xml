@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.softec.tech_event_registration">
    <application
-        android:label="tech_event_registration"
+        android:label="Polished Events"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
